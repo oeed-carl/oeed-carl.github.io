@@ -16,10 +16,18 @@ layout: default
 	<!-- </div> -->
 
 	<div class="card welcome">
-		<input type="text" placeholder="ABC123" maxlength="8">
+		<input type="text" id="plate-text" placeholder="ABC123" maxlength="8"/>
 		<div class="separator"></div>
-		<div class="alert-title">Welcome to Carl</div>
-		<div class="alert-text home">Carl helps you find the right car.<br>Simply enter the license plate!</div>
+		<div class="welcome-switch-wrap locked">
+			<div class="switch-main">
+				<div class="alert-title">Meet Carl</div>
+				<div class="alert-text home">Carl helps you find the right car.<br>Simply enter the license plate!</div>
+			</div>
+			<div class="switch-button">
+				<button class="go">Find Car</button>
+			</div>
+		</div>
+		
 	</div>
 
 	<div class="card loading">

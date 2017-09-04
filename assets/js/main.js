@@ -1,63 +1,55 @@
 $(document).ready(function() {
-    var xhr;
-    var _orgAjax = jQuery.ajaxSettings.xhr;
-    jQuery.ajaxSettings.xhr = function() {
-        xhr = _orgAjax();
-        return xhr;
-    };
-    $('input[type="file"]').change(function() {
+    var $plateText = $("#plate-text");
+
+    function lookup(plate) {
+        // TOOD: look up the plate
         startLoading();
-        var data = new FormData();
-        data.append("file", $('#file')[0].files[0]);
-        $.ajax({
-            url: '/',
-            data: data,
-            cache: false,
-            contentType: false,
-            processData: false,
-            type: 'POST',
-            success: function(data, success) {
-                changePage(xhr.responseURL)
-                var $page = $(".load-wrap").html(data);
-                var $content = $page.find("div.content");
-                $page.remove();
+    }
 
-                var $logo = $(".carl-logo");
-                var delay = 0;
-                if (!$logo.hasClass("out")) {
-                    $logo.addClass("out")
-                    delay += 0.1;
-                }
+    function plateTextLookup() {
+        var plate = $plateText.val();
+        if (plate.length > 0)
+            lookup(plate)
+    }
 
-                $(".content").find(".card:not(.out)").each(function(index, card) {
-                    var $card = $(card);
-                    $card.css("animation-delay", delay + "s").removeClass("in").addClass("out");
-                    delay += 0.1;
-                });
+    var $welcomeSwitchWrap = $(".welcome-switch-wrap");
+    $plateText.on("keyup", function(event) {
+        if (event.keyCode == 13)
+            plateTextLookup()
+    }).on("input", function() {
+        $welcomeSwitchWrap.removeClass("locked")
 
-                $newCards = $('<div class="cards cards-new"></div>');
-                $("div.content").append($newCards);
-                $content.children().each(function(index, child) {
-                    var $child = $(child);
-                    $newCards.append($child);
-                    $child.addClass("card-new").css("animation-delay", (delay + 0.3) + "s").addClass("in").removeClass("out");
-                    delay += 0.1;
+        if ($plateText.val().length > 0)
+            $welcomeSwitchWrap.addClass("switched")
+        else
+            $welcomeSwitchWrap.removeClass("switched")
 
-                });
-
-            },
-            fail: function() {
-                alert("fail")
-                $("form").submit();
-            }
-        });
-    })
-
-
-
-    window.addEventListener("popstate", function(e) {
-        window.location.reload()
     });
+
+    function changeContent() {
+        var $logo = $(".carl-logo");
+        var delay = 0;
+        if (!$logo.hasClass("out")) {
+            $logo.addClass("out")
+            delay += 0.1;
+        }
+
+        $(".content").find(".card:not(.out)").each(function(index, card) {
+            var $card = $(card);
+            $card.css("animation-delay", delay + "s").removeClass("in").addClass("out");
+            delay += 0.1;
+        });
+
+        $newCards = $('<div class="cards cards-new"></div>');
+        $("div.content").append($newCards);
+        $content.children().each(function(index, child) {
+            var $child = $(child);
+            $newCards.append($child);
+            $child.addClass("card-new").css("animation-delay", (delay + 0.3) + "s").addClass("in").removeClass("out");
+            delay += 0.1;
+
+        });
+    }
 
     var messages = [
         "Beep boop...",
@@ -85,7 +77,7 @@ $(document).ready(function() {
 
     function startLoading() {
         $(".card.loading").addClass("in");
-        $(".card.alert-card").addClass("out");
+        $(".card.alert-card, .card.welcome").addClass("out");
         $loadingMessage = $(".loading-message");
         $loadingMessage.addClass('in');
         setInterval(function() {
@@ -99,14 +91,3 @@ $(document).ready(function() {
 
     s = startLoading;
 });
-
-
-
-function changePage(pageUrl, isPop) {
-    if (isPop || pageUrl != window.location.pathname) {
-        if (!isPop)
-            window.history.pushState({
-                path: pageUrl
-            }, '', pageUrl);
-    }
-}

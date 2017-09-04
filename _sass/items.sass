@@ -160,7 +160,7 @@ input[type="text"]
 	text-transform: uppercase
 	font-family: Montserrat, Avenir, sans-serif
 	font-weight: 500
-	color: #333
+	color: $blueDark
 	background: none
 	padding: 13px 0
 	box-sizing: border-box
@@ -184,5 +184,150 @@ input[type="text"]
 
 .separator
 	width: 85%
-	border-bottom: 1px solid $placeholder
+	border-bottom: 1px solid $blueOutline
 	margin: 0 auto
+
+.plate-text-wrap
+	display: flex
+	align-items: center
+
+button.go
+	height: 50px
+	background-image: url(../img/camera.svg)
+	border-radius: 40px
+	padding-left: 59px
+	background-repeat: no-repeat
+	line-height: 30px
+	background-position: 3px -3px
+	background-size: 55px
+	font-size: 18px
+	font-weight: 400
+	padding-right: 20px
+	margin: 0 auto
+	width: 160px
+	display: block
+
+.welcome-switch-wrap
+	position: relative
+
+	&.switched
+		.switch-main
+			-webkit-animation: main-out 0.2s $easeIn forwards
+			animation: main-out 0.2s $easeIn forwards
+
+		.switch-button
+			-webkit-animation: button-in 0.3s 0.1s $easeOut forwards
+			animation: button-in 0.3s 0.1s $easeOut forwards
+
+	&.locked
+		.switch-main
+			opacity: 1
+
+		.switch-main, .switch-button
+			-webkit-animation:none
+
+			animation: none
+
+.switch-main
+	opacity: 0
+	-webkit-animation: main-in 0.3s 0.1s $easeOut forwards
+	animation: main-in 0.3s 0.1s $easeOut forwards
+
+.switch-button
+	position: absolute
+	top: 0
+	bottom: 0
+	display: flex
+	align-items: center
+	width: 100%
+	opacity: 0
+	-webkit-animation: button-out 0.2s $easeIn forwards
+	animation: button-out 0.2s $easeIn forwards
+
+@-webkit-keyframes main-out
+	from
+		-webkit-transform: none
+		transform: none
+		opacity: 1
+
+	to
+		-webkit-transform: translateX(-280px)
+		transform: translateX(-280px)
+		opacity: 0
+
+@keyframes main-out
+	from
+		-webkit-transform: none
+		transform: none
+		opacity: 1
+
+	to
+		-webkit-transform: translateX(-280px)
+		transform: translateX(-280px)
+		opacity: 0
+
+@-webkit-keyframes button-out
+	from
+		-webkit-transform: none
+		transform: none
+		opacity: 1
+
+	to
+		-webkit-transform: translateX(280px)
+		transform: translateX(280px)
+		opacity: 0
+
+@keyframes button-out
+	from
+		-webkit-transform: none
+		transform: none
+		opacity: 1
+
+	to
+		-webkit-transform: translateX(280px)
+		transform: translateX(280px)
+		opacity: 0
+
+@-webkit-keyframes button-in
+	to
+		-webkit-transform: none
+		transform: none
+		opacity: 1
+
+	from
+		-webkit-transform: translateX(280px)
+		transform: translateX(280px)
+		opacity: 0
+
+@keyframes button-in
+	to
+		-webkit-transform: none
+		transform: none
+		opacity: 1
+
+	from
+		-webkit-transform: translateX(280px)
+		transform: translateX(280px)
+		opacity: 0
+
+@-webkit-keyframes main-in
+	to
+		-webkit-transform: none
+		transform: none
+		opacity: 1
+
+	from
+		-webkit-transform: translateX(-280px)
+		transform: translateX(-280px)
+		opacity: 0
+
+@keyframes main-in
+	to
+		-webkit-transform: none
+		transform: none
+		opacity: 1
+
+	from
+		-webkit-transform: translateX(-280px)
+		transform: translateX(-280px)
+		opacity: 0

@@ -8,6 +8,7 @@
 	box-sizing: border-box
 	margin-bottom: 40px
 	padding: 0 20px 30px
+	overflow: hidden
 
 .cards
 	position: relative
@@ -28,12 +29,12 @@
 	opacity: 0
 
 .card.out, .carl-logo.out
-	-webkit-animation: card-out 0.4s cubic-bezier(0.55, 0.055, 0.675, 0.19) forwards
-	animation: card-out 0.4s cubic-bezier(0.55, 0.055, 0.675, 0.19) forwards
+	-webkit-animation: card-out 0.4s $easeIn forwards
+	animation: card-out 0.4s $easeIn forwards
 
 .title-bar.in, .card.in
-	-webkit-animation: card-in 0.4s cubic-bezier(0.215, 0.61, 0.355, 1) 0.3s forwards
-	animation: card-in 0.4s cubic-bezier(0.215, 0.61, 0.355, 1) 0.3s forwards
+	-webkit-animation: card-in 0.4s $easeOut 0.3s forwards
+	animation: card-in 0.4s $easeOut 0.3s forwards
 
 @-webkit-keyframes card-out
 	from
