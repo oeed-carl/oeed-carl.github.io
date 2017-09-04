@@ -23,8 +23,9 @@ $(document).ready(function() {
             $welcomeSwitchWrap.addClass("switched")
         else
             $welcomeSwitchWrap.removeClass("switched")
-
     });
+
+    $("button.go").click(plateTextLookup)
 
     function changeContent() {
         var $logo = $(".carl-logo");
