@@ -150,3 +150,39 @@ input[type="file"] + label
 	background-size: contain
 	margin-bottom: 30px
 	margin-top: 10px
+
+input[type="text"]
+	outline: none
+	border: none
+	text-align: center
+	font-size: 32px
+	letter-spacing: 0.06em
+	text-transform: uppercase
+	font-family: Montserrat, Avenir, sans-serif
+	font-weight: 500
+	color: #333
+	background: none
+	padding: 13px 0
+	box-sizing: border-box
+	width: 100%
+
+	&::-webkit-input-placeholder
+		color: $placeholder
+		font-weight: 400
+
+	&::-moz-placeholder
+		color: $placeholder
+		font-weight: 400
+
+	&::-ms-placeholder
+		color: $placeholder
+		font-weight: 400
+
+	&::placeholder
+		color: $placeholder
+		font-weight: 400
+
+.separator
+	width: 85%
+	border-bottom: 1px solid $placeholder
+	margin: 0 auto
