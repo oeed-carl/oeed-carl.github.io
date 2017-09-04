@@ -1,0 +1,237 @@
+
+
+{% extends 'layout.html' %}
+
+
+{% block body %}
+
+<div class="title-bar">
+    <a href="/" class="back">Back</a>
+    <div class="bar-title">{{ vehicle.idh.plate }}
+        <div class="bar-detail">
+            Registration
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="title">Overview</div>
+
+    <div class="details">
+        <div class="item">
+            <div class="left">
+                <div class="subtitle">
+                    Make
+                </div>
+            </div>
+            <div class="right">
+                <div class="value">
+                    {{vehicle.idh.vehicle.make.title()}}
+                </div>
+            </div>
+        </div>
+
+        <div class="item">
+            <div class="left">
+                <div class="subtitle">
+                    Model
+                </div>
+            </div>
+            <div class="right">
+                <div class="value">
+                    {{vehicle.idh.vehicle.model.title()}}
+                </div>
+                <div class="detail-large">
+                    {{vehicle.idh.vehicle.submodel}}
+                </div>
+            </div>
+        </div>
+				<div class="item">
+            <div class="left">
+                <div class="subtitle">
+                    Year
+                </div>
+            </div>
+            <div class="right">
+                <div class="value">
+                    {{ year }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="title">Performance</div>
+
+    <div class="item">
+        <div class="left">
+            <div class="subtitle">
+                Age
+            </div>
+        </div>
+        <div class="right">
+            <div class="value">
+                {{ age }}
+                <span class="unit">yrs</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="item">
+        <div class="left">
+            <div class="subtitle">
+                Odometer
+            </div>
+                {% if odo_data > high_odo %}
+            <div class="warning">
+                High for age!
+            </div>
+                {% endif %}
+        </div>
+        <div class="right">
+            <div class="value">
+                {{ odo }}
+                <span class="unit">km</span>
+            </div>
+            <div class="detail-small">
+                As of {{ date }}
+            </div>
+        </div>
+    </div>
+
+    <div class="item">
+        <div class="left">
+            <div class="subtitle">
+                Transmission
+            </div>
+        </div>
+        <div class="right">
+            <div class="value">
+                {{ transmission }}
+            </div>
+        </div>
+    </div>
+
+    <div class="item">
+        <div class="left">
+            <div class="subtitle">
+                Fuel
+            </div>
+        </div>
+        <div class="right">
+            <div class="value">
+            {{ fuel }}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="title">Safety</div>
+
+    <div class="item">
+        <div class="left">
+            <div class="subtitle">
+                ANCAP
+            </div>
+        </div>
+        <div class="right">
+            <div class="stars">
+            {% for i in stars %}
+                <div class="star full"></div>
+            {% endfor %}
+            {% for i in half_stars %}
+                <div class="star half"></div>
+            {% endfor %}
+            {% for i in empty_stars %}
+                <div class="star"></div>
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="title">Pricing</div>
+
+    <div class="item">
+        <div class="left">
+            <div class="subtitle">
+                New
+            </div>
+        </div>
+        <div class="right">
+            <div class="value">
+                <span class="unit dollar">$</span>
+                {{ new_car_price }}
+            </div>
+        </div>
+    </div>
+
+    <div class="item">
+        <div class="left">
+            <div class="subtitle">
+                Used
+            </div>
+        </div>
+        <div class="right">
+            <div class="value">
+                <span class="unit dollar">$</span>
+                {{ used_car_price }}
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="card">
+    <div class="title">Reviews</div>
+
+    <div class="item">
+        <div class="left">
+            <div class="subtitle">
+                AA motoring
+            </div>
+        </div>
+        <div class="right">
+            <div class="value">
+								<div class="stars">
+		            {% for i in aa_stars %}
+		                <div class="star full"></div>
+		            {% endfor %}
+		            {% for i in aa_half_stars %}
+		                <div class="star half"></div>
+		            {% endfor %}
+		            {% for i in aa_empty_stars %}
+		                <div class="star"></div>
+		            {% endfor %}
+		            </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="item">
+        <div class="left">
+            <div class="subtitle">
+                CarsGuide
+            </div>
+        </div>
+        <div class="right">
+            <div class="value">
+								<div class="stars">
+		            {% for i in cg_stars %}
+		                <div class="star full"></div>
+		            {% endfor %}
+		            {% for i in cg_half_stars %}
+		                <div class="star half"></div>
+		            {% endfor %}
+		            {% for i in cg_empty_stars %}
+		                <div class="star"></div>
+		            {% endfor %}
+		            </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

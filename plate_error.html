@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<div class="title-bar">
+	<a href="/" class="back">Back</a>
+	<div class="bar-title">{{ number_plate }}
+		<div class="bar-detail">
+			Registration
+		</div>
+	</div>
+</div>
+
+<div class="card alert-card">
+	<div class="stolen-icon"></div>
+	<div class="alert-title">No Data Available</div>
+	<div class="alert-text">Sorry, we couldn't find {{ number_plate }}.</div>
+
+	<div class="center-buttons">
+		<a href="/"><button>Try Again</button></a>
+	</div>
+</div>
+{% endblock %}

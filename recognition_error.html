@@ -1,0 +1,17 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<div class="title-bar">
+	<a href="/" class="back">Back</a>
+</div>
+
+<div class="card alert-card">
+	<div class="stolen-icon"></div>
+	<div class="alert-title">Plate Not Found</div>
+	<div class="alert-text">We couldn't find a plate in your photo.</div>
+
+	<div class="center-buttons">
+		<a href="/"><button>Try Again</button></a>
+	</div>
+</div>
+{% endblock %}

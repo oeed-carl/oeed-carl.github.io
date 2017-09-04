@@ -1,0 +1,18 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<div class="title-bar">
+	<a href="/" class="back">Back</a>
+</div>
+<div class="card alert-card">
+	<div class="stolen-icon"></div>
+	<div class="alert-title">Vehicle Stolen</div>
+	<div class="alert-text">This vehicle is reported as stolen. <br>Exercise caution.</div>
+
+	<div class="center-buttons">
+		<a href="/"><button>Cancel</button></a>
+		<a href="tel:"><button>Call Police</button></a>
+	</div>
+</div>
+{% endblock %}
+
