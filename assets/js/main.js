@@ -14,8 +14,10 @@ $(document).ready(function() {
 
     var $welcomeSwitchWrap = $(".welcome-switch-wrap");
     $plateText.on("keyup", function(event) {
-        if (event.keyCode == 13)
+        if (event.keyCode == 13) {
             plateTextLookup()
+            return true;
+        }
     }).on("input", function() {
         $welcomeSwitchWrap.removeClass("locked")
 
