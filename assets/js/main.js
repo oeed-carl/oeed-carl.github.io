@@ -80,7 +80,7 @@ $(document).ready(function() {
             }];
             setTimeout(function() {
                 changeContent(plate, cards);
-            }, 50);
+            }, 2500);
         })
     }
 
