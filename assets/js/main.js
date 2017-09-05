@@ -2,11 +2,18 @@ $(document).ready(function() {
     var $plateText = $("#plate-text");
 
     function lookup(plate, callback) {
+        plate = plate.toUpperCase().replace(" ", "");
         // TOOD: look up the plate
         startLoading();
         tradeMeLookup(plate, function(success, data) {
 
             console.log(data);
+            var wofMoment = moment(data.WOFExpires.Value, "MMMM YY");
+            var registrationMoment = moment(data.RegistrationExpires.Value, "MMMM YY");
+
+            var wofDiff = wofMoment.diff(moment(), 'months')
+            var registrationDiff = registrationMoment.diff(moment(), 'months')
+
             var cards = [{
                 title: "Overview",
                 details: [{
@@ -28,11 +35,11 @@ $(document).ready(function() {
                 title: "Performance",
                 details: [{
                     title: "Age",
-                    value: 2017 - data.Year.Value + '<span class="unit">yrs</span>',
+                    value: 2017 - data.Year.Value + ' <span class="unit">yrs</span>',
                 }, {
                     title: "Odometer",
-                    value: data.Kilometres.Value + '<span class="unit">km</span>',
-                    // detail: data.ModelDetail.Value
+                    value: parseInt(data.Kilometres.Value).toLocaleString() + ' <span class="unit">km</span>',
+                    warning: (data.Kilometres.Value / 18000) > (2017 - data.Year.Value) ? "Potentially unreliable!" : false
                 }, {
                     title: "Transmission",
                     value: data.Transmission.DisplayValue
@@ -44,7 +51,7 @@ $(document).ready(function() {
                     value: data.FuelType.Value
                 }, {
                     title: "Engine Size",
-                    value: data.EngineSize.DisplayValue + '<span class="unit">cc</span>',
+                    value: data.EngineSize.Value + ' <span class="unit">cc</span>',
                 }]
             }, {
                 title: "History",
@@ -54,24 +61,26 @@ $(document).ready(function() {
                 }, {
                     title: "Previous Owners",
                     value: data.NumberOfOwners.Value,
-                    // detail: data.ModelDetail.Value
+                    warning: data.NumberOfOwners.Value > 3 ? "High ownership turnover!" : false
+                        // detail: data.ModelDetail.Value
                 }]
             }, {
                 title: "Registration",
                 details: [{
                     title: "WoF Expiry",
-                    value: data.WOFExpires.Value,
+                    value: wofMoment.format("MMM 'YY"),
+                    detail: moment().to(wofMoment),
+                    warning: wofDiff <= 0 ? "Warrant has expired!" : (wofDiff <= 2 ? "Warrant will expire soon!" : false)
                 }, {
-                    title: "Registration Rexpiry",
-                    value: data.RegistrationExpires.Value,
-                    // detail: data.ModelDetail.Value
-                }, {
-                    title: "VIN",
-                    value: data.VIN.Value
+                    title: "Rego Expiry",
+                    value: registrationMoment.format("MMM 'YY"),
+                    detail: moment().to(registrationMoment),
+                    warning: registrationDiff <= 0 ? "Registration has expired!" : (registrationDiff <= 2 ? "Registration will expire soon!" : false)
                 }]
             }];
-
-            changeContent(cards);
+            setTimeout(function() {
+                changeContent(plate, cards);
+            }, 50);
         })
     }
 
@@ -122,40 +131,81 @@ $(document).ready(function() {
 
     $("button.go").click(plateTextLookup)
 
-    function changeContent(cards) {
+    function changeContent(license, cards) {
         var $logo = $(".carl-logo");
         var delay = 0;
         if (!$logo.hasClass("out")) {
-            $logo.addClass("out")
+            $logo.addClass("out").removeClass("in card-new")
             delay += 0.1;
         }
 
         $(".content").find(".card:not(.out)").each(function(index, card) {
             var $card = $(card);
-            $card.css("animation-delay", delay + "s").removeClass("in").addClass("out");
+            $card.css("animation-delay", delay + "s").removeClass("in card-new").addClass("out");
             delay += 0.1;
         });
 
         $newCards = $('<div class="cards cards-new"></div>');
         $("div.content").append($newCards);
 
+        $newCards.append(`<div class="title-bar card-new in">
+                <a href="/" class="back">Back</a>
+                <div class="bar-title">${license}
+                    <div class="bar-detail">
+                        Registration
+                    </div>
+                </div>
+            </div>`)
+
+        $(".back").click(function() {
+            $plateText.val("");
+            $welcomeSwitchWrap.removeClass("switched")
+            $(".cards-new > div").removeClass("in card-new").addClass("out").each(function(index, el) {
+                $(el).css("animation-delay", (index * 0.1) + "s");
+            });
+
+            setTimeout(function() {
+                $(".cards-new").remove()
+            }, $(".cards-new > div").length * 100 + 1000)
+            setTimeout(function() {
+                $(".carl-logo").addClass("in card-new").removeClass("out");
+                setTimeout(function() {
+                    $(".card.welcome").addClass("in card-new").removeClass("out");
+                }, 100)
+            }, $(".cards-new > div").length * 100)
+
+            return false;
+        })
 
         for (var i = 0; i < cards.length; i++) {
             var card = cards[i];
-            var $card = $(`<div class="card card-new in"><div class="title">Performance</div></div>`).css("animation-delay", (delay + 0.3) + "s");
+            var $card = $(`<div class="card card-new in"><div class="title">${card.title}</div></div>`).css("animation-delay", (delay + 0.3) + "s");
             for (var n = 0; n < card.details.length; n++) {
                 var item = card.details[n];
+                var warning = "";
+                if (item.warning)
+                    warning = `<div class="warning">${item.warning}</div>`;
+                var detail = "";
+                if (item.detail)
+                    detail = `<div class="detail-large">${item.detail}</div>`;
+                var detailSmall = "";
+                if (item.detailSmall)
+                    detailSmall = `<div class="detail-small">${item.detailSmall}</div>`;
                 $card.append(`
                     <div class="item">
                         <div class="left">
                             <div class="subtitle">
                                 ${item.title}
                             </div>
+
+                            ${warning}
                         </div>
                         <div class="right">
                             <div class="value">
                                 ${item.value}
                             </div>
+                            ${detail}
+                            ${detailSmall}
                         </div>
                     </div>
                 `)
@@ -199,8 +249,8 @@ $(document).ready(function() {
     }
 
     function startLoading() {
-        $(".card.loading").addClass("in");
-        $(".card.alert-card, .card.welcome").addClass("out");
+        $(".card.loading").addClass("in").removeClass("out");
+        $(".card.alert-card, .card.welcome").addClass("out").removeClass("in card-new");
         $loadingMessage = $(".loading-message");
         $loadingMessage.addClass('in');
         setInterval(function() {
